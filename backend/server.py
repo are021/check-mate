@@ -12,10 +12,14 @@ load_dotenv()
 def index():
     return get_youtube_subtitles("https://www.youtube.com/watch?v=4QXUdPskzNs&ab_channel=LiveNOWfromFOX")
 
-@app.route('/transcribe', methods=['POST'])
-def transcribe():
-    text = request.json['text']
-    return call_ai(text)
+@app.route('/factcheck', methods=['POST'])
+def factcheck():
+    text = request.json['url']
+    if "youtube" in text:
+        transcript = get_youtube_subtitles(text)
+        return call_ai(transcript)
+    else:
+        return "Invalid URL"
            
 
 if __name__ == '__main__':
