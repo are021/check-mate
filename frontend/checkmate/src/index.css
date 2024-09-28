@@ -1,3 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    @font-face {
+        font-family: 'Courier New';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('/fonts/cour.ttf') format('truetype');
+    }
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+html, body {
+    width: 100vw;
+    max-height: 100vh;
+    overflow-x: hidden;
+}
+
+.font-dm-serif-display {
+    font-family: 'DM Serif Display', serif;
+}
+
+:root {
+    --columns: 0;
+    --rows: 0;
+}
+
+#grid {
+    height: calc(100vh);
+    width: calc(100vw);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: -1;
+    transform: translate(-50%, -50%);
+    display: grid;
+    grid-template-columns: repeat(var(--columns), 1fr);
+    grid-template-rows: repeat(var(--rows), 1fr);
+}
+
+.tile {
+    position: relative;
+    transition: background-color 0.5s;
+    transition-delay: 0.5s;
+}
+
+.black-tile {
+    position: relative;
+    background-color: #EAE4DD;
+    transition: background-color 0.5s;
+    transition-delay: 0.5s;
+    opacity: 0.5;
+}
+
+.black-tile:hover, .tile:hover {
+    background-color: #FFFF00;
+    transition-delay: 0s;
+}
