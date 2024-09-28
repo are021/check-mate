@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 export default function Navbar() {
 
     const [menuOpen, setMenuOpen] = useState(false);
+    const loc = useLocation();
+    console.log(loc.pathname);
 
     function toggleMenu() {
         setMenuOpen(!menuOpen);
@@ -25,9 +28,9 @@ export default function Navbar() {
                 s
             </button>
             <div className="hidden md:flex items-center gap-x-4 text-xl">
-                <a href="/">home</a>
-                <a href="/">explore</a>
-                <a href="/">download</a>
+                <a className={`${loc.pathname === '/' ? 'active-link':''}`} href="/">home</a>
+                <a className={`${loc.pathname === '/explore'} ? 'active-link' : ''`} href="/explore">explore</a>
+                <a className={`${loc.pathname === '/download'} ? 'active-link' : ''`} href="/download">download</a>
             </div>
         </div>
     )

@@ -38,11 +38,7 @@ html, body {
 #grid {
     height: calc(100vh);
     width: calc(100vw);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: -1;
-    transform: translate(-50%, -50%);
+    position: relative;
     display: grid;
     grid-template-columns: repeat(var(--columns), 1fr);
     grid-template-rows: repeat(var(--rows), 1fr);
@@ -50,8 +46,6 @@ html, body {
 
 .tile {
     position: relative;
-    transition: background-color 0.5s;
-    transition-delay: 0.5s;
 }
 
 .black-tile {
@@ -65,4 +59,8 @@ html, body {
 .black-tile:hover, .tile:hover {
     background-color: #FFFF00;
     transition-delay: 0s;
+}
+
+.active-link {
+    @apply underline underline-offset-2 decoration-solid decoration-2;
 }
