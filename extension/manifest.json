@@ -12,11 +12,10 @@
     },
     "action": {},
     "content_scripts": [
-      {
-        "matches": ["*://*.youtube.com/*"],
-        "js": ["./scripts/content.js"],
-        "css": ["./scripts/sidebar.css"]
-      }
+        {
+            "matches": ["*://*.youtube.com/*"],
+            "js": ["./scripts/content.js"],
+            "css": ["./scripts/sidebar.css"]
+        }
     ]
-  }
-  
+}
