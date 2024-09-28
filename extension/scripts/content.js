@@ -18,7 +18,7 @@ function createSidebar() {
     sidebar.style.top = '0';
     sidebar.style.right = '0';
     sidebar.style.width = '300px';
-    sidebar.style.height = '90%';
+    sidebar.style.height = '100%';
     sidebar.style.backgroundColor = '#d2b48c'; // Light brown
     sidebar.style.boxShadow = 'rgba(0, 0, 0, 0.2) 0px 5px 15px';
     sidebar.style.padding = '10px';
