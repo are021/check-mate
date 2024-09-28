@@ -29,7 +29,8 @@ def get_youtube_subtitles(url):
         return condensed_transcript
     except Exception as e:
         print(f"Error: {e}")
-        return None
+        return {"error": True, "message": str(e), "subtitles": []}
+
 
 def condense_transcript(transcript):
     condensed_transcript = {}

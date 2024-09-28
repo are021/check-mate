@@ -23,3 +23,6 @@ typing_extensions==4.12.2
 urllib3==2.2.3
 Werkzeug==3.0.4
 youtube-transcript-api==0.6.2
+pymongo==4.9.1
+python-dotenv==1.0.1
+
