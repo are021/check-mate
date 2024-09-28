@@ -1,0 +1,14 @@
+#fact-check-sidebar {
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+#fact-check-sidebar h2 {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#fact-check-sidebar p {
+  font-size: 14px;
+  line-height: 1.5;
+}

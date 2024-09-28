@@ -1,0 +1,22 @@
+{
+    "manifest_version": 3,
+    "name": "Check Mate",
+    "description": "Check Mate: Video fact checker",
+    "version": "1.0",
+    "permissions": ["tabs", "storage", "scripting"],
+    "host_permissions": [
+      "https://*.youtube.com/*"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "action": {},
+    "content_scripts": [
+      {
+        "matches": ["*://*.youtube.com/*"],
+        "js": ["./scripts/content.js"],
+        "css": ["./scripts/sidebar.css"]
+      }
+    ]
+  }
+  
