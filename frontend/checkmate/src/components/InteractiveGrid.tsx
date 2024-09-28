@@ -15,10 +15,12 @@ export default function InteractiveGrid() {
 
         // generate all the grid divs
         let grid = document.getElementById('grid');
-        for (let i = 0; i < cols*rows; i++) {
-            let tile = document.createElement('div');
-            tile.classList.add((i % 2) ? 'black-tile' : 'tile');
-            grid?.appendChild(tile);
+        for(let i = 0; i < rows; i++) {
+            for(let j = 0; j < cols; j++) {
+                let tile = document.createElement('div');
+                tile.classList.add((((i % 2) + j) % 2) ? 'tile' : 'black-tile')
+                grid?.appendChild(tile);
+            }
         }
     }
 
@@ -33,6 +35,6 @@ export default function InteractiveGrid() {
     }, []);
     
     return (
-        <div id="grid" className=""></div>
+        <div id="grid" className="z-2"></div>
     )
 }

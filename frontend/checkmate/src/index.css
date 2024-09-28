@@ -41,7 +41,6 @@ html, body {
     position: absolute;
     top: 50%;
     left: 50%;
-    z-index: -1;
     transform: translate(-50%, -50%);
     display: grid;
     grid-template-columns: repeat(var(--columns), 1fr);
@@ -65,4 +64,8 @@ html, body {
 .black-tile:hover, .tile:hover {
     background-color: #FFFF00;
     transition-delay: 0s;
+}
+
+.active-link {
+    @apply underline underline-offset-2 decoration-solid decoration-2;
 }
