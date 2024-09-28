@@ -35,6 +35,6 @@ export default function InteractiveGrid() {
     }, []);
     
     return (
-        <div id="grid" className="z-2"></div>
+        <div id="grid"></div>
     )
 }
