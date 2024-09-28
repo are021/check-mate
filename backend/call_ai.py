@@ -6,12 +6,20 @@ from typing import List
 from langchain_core.prompts import ChatPromptTemplate
 
 from langchain_groq import ChatGroq
+from langchain_openai import ChatOpenAI
+
 
 def call_ai(text: dict):
-    llm = ChatGroq(
-    model="mixtral-8x7b-32768",
-    temperature=0.0,
+    models = ["llama3-8b-8192", "gemma2-9b-it", "mixtral-8x7b-32768", "llava-v1.5-7b-4096-preview"]
+    llm = ChatOpenAI(
+        api_key=os.environ.get("OPENAI_API_KEY"),
+        model="gpt-3.5-turbo",
+        temperature=0.5,
     )
+    # llm = ChatGroq(
+    # model=models[0],
+    # temperature=0.0,
+    # )
     class FactCheckModel(BaseModel):
         '''
         Response for Fact Checking Information
@@ -28,7 +36,8 @@ def call_ai(text: dict):
                 "user",  # Specify the role here
                 (
                     "Fact check this text: {text}. Please highlight the following in your response: "
-                    "Incorrect information, Correct information, Uncertain information, and Sources with links in JSON. "
+                    "List the Incorrect information, Correct information, Uncertain information"
+                    "Also provide additional URL Linked Sources so the users can be redirected to the site, so users can learn more about the topic"
                     f"Your JSON object must look like this schema: {FactCheckModel.model_json_schema()}"
                 )
             )

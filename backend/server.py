@@ -5,6 +5,7 @@ from call_ai import call_ai
 import os
 import datetime
 from pymongo.mongo_client import MongoClient
+import json
 
 
 app = Flask(__name__)
@@ -43,7 +44,7 @@ def factcheck():
         # Add new document with the AI result to the database
         document = {
             "url": text,
-            "ai_result": ai_result,
+            "ai_result": json.dumps(ai_result),
             "timestamp": datetime.datetime.now()
         }
         collection.insert_one(document)
