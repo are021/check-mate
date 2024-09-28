@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from utils import get_youtube_subtitles
 from dotenv import load_dotenv
 from call_ai import call_ai
@@ -14,7 +14,7 @@ def index():
 
 @app.route('/transcribe', methods=['POST'])
 def transcribe():
-    text = request.form['text']
+    text = request.json['text']
     return call_ai(text)
            
 
