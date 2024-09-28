@@ -5,7 +5,7 @@ from flask import Flask
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = './files'
 
-@app.route('/', methods=['GET']):
+@app.route('/', methods=['GET'])
 def index():
     return 'Hello World'
 
