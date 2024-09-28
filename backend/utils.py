@@ -4,16 +4,17 @@ from youtube_transcript_api import YouTubeTranscriptApi
 def get_youtube_video_id(url):
     """
     Extracts the video ID from a YouTube URL.
-    Supports both standard and shortened YouTube URLs.
+    Supports standard, short, and embedded YouTube URLs.
     """
     # Regular expression to match different YouTube URL formats
-    pattern = r'(?:v=|\/)([0-9A-Za-z_-]{11}).*'
+    pattern = r'(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/)|youtu\.be\/)([0-9A-Za-z_-]{11})'
+    
     match = re.search(pattern, url)
     
     if match:
         return match.group(1)
     else:
-        raise ValueError("Invalid YouTube URL")
+        raise ValueError("Invalid YouTube URL or unsupported format")
 
 
 def get_youtube_subtitles(url):
