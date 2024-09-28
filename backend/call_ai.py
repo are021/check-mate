@@ -11,15 +11,15 @@ from langchain_openai import ChatOpenAI
 
 def call_ai(text: dict):
     models = ["llama3-8b-8192", "gemma2-9b-it", "mixtral-8x7b-32768", "llava-v1.5-7b-4096-preview"]
-    llm = ChatOpenAI(
-        api_key=os.environ.get("OPENAI_API_KEY"),
-        model="gpt-3.5-turbo",
-        temperature=0.5,
-    )
-    # llm = ChatGroq(
-    # model=models[0],
-    # temperature=0.0,
+    # llm = ChatOpenAI(
+    #     api_key=os.environ.get("OPENAI_API_KEY"),
+    #     model="gpt-3.5-turbo",
+    #     temperature=0.5,
     # )
+    llm = ChatGroq(
+    model=models[0],
+    temperature=0.0,
+    )
     class FactCheckModel(BaseModel):
         '''
         Response for Fact Checking Information
