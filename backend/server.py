@@ -24,17 +24,38 @@ def index():
 @app.route('/factcheck', methods=['POST'])
 def factcheck():
     text = request.json['url']
+    
     if "youtube" in text:
-        # add to database
+        # Check if the URL already exists in the collection
+        existing_entry = collection.find_one({"url": text})
+        
+        if existing_entry:
+            # Return the existing AI result if URL is found
+            return jsonify({
+                "url": text,
+                "ai_result": existing_entry['ai_result']
+            }), 200
+        
+        # If the URL doesn't exist, get the transcript and call the AI
+        transcript = get_youtube_subtitles(text)
+        ai_result = call_ai(transcript)
+
+        # Add new document with the AI result to the database
         document = {
             "url": text,
-            "timestamp": datetime.datetime.now()  
+            "ai_result": ai_result,
+            "timestamp": datetime.datetime.now()
         }
         collection.insert_one(document)
-        transcript = get_youtube_subtitles(text)
-        return call_ai(transcript)
+
+        # Return the AI result
+        return jsonify({
+            "url": text,
+            "ai_result": ai_result
+        }), 200
+    
     else:
-        return "Invalid URL"
+        return jsonify({"error": "Invalid URL"}), 400
 
 @app.route('/recent-videos', methods=['GET'])
 def recent_videos():
