@@ -2,7 +2,7 @@
 // TODO: need to change the text bubbles and use the API to pull the JSON data
 function createHeader() {
     const extensionName = "Check Mate";
-    const extensionURL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+    const extensionURL = "http://localhost:5173/";
 
     const header = document.createElement('div');
     header.style.display = 'flex';
@@ -14,7 +14,7 @@ function createHeader() {
 
     // Create logo
     const logo = document.createElement("img");
-    logo.src = chrome.runtime.getURL("images/king.jpeg");
+    logo.src = chrome.runtime.getURL("../images/chess-king.png");
     logo.width = 30;
     logo.height = 30;
     logo.style.marginRight = '10px';
