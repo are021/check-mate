@@ -9,6 +9,8 @@ export default function ExploreFeed() {
     const fetchVideos = async () => {
       try {
         const response = await fetch('https://checkmate-backend-8puv.onrender.com/recent-videos'); // Replace with your API URL
+            // const response = await fetch('http://127.0.0.1:8000/recent-videos'); // Replace with your API URL
+
         let data = await response.json();
         if (data) {
           setVideos(data);
@@ -22,18 +24,18 @@ export default function ExploreFeed() {
     }, []);
 
     return (
-        <div className="content-center">
-            <h1 className="text-5xl font-dm-serif-display pointer-events-none">recently checked videos</h1>
-            <div className="grid grid-cols-5 gap-8 ">
-                {(videos !== null) ? videos.map((video:any, index:number) => (
-                    <VideoPreview
-                        key={index} // Unique key for each element in the list
-                        videoURL={video.url} // Corrected prop name
-                        width="150"
-                        height="250"
-                    />
-                )) : <h1>Error loading videos</h1>}
-            </div>
-        </div>
-    );
+      <div className="content-center">
+          <h1 className="text-5xl font-dm-serif-display pointer-events-none">Recently Checked Videos</h1>
+          <div className="flex flex-wrap gap-8 justify-center">
+              {(videos !== null) ? videos.map((video: any, index: number) => (
+                  <VideoPreview
+                      key={index} // Unique key for each element in the list
+                      videoURL={video.url} // Corrected prop name
+                      width="150"
+                      height="250"
+                  />
+              )) : <h1>Error loading videos</h1>}
+          </div>
+      </div>
+  );
 }
