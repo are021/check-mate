@@ -18,8 +18,8 @@ export default function ExploreFeed() {
       }
     };
 
-    fetchVideos();
-  }, []);
+        fetchVideos();
+    }, []);
 
     return (
         <div className="content-center">

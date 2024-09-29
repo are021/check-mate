@@ -1,6 +1,16 @@
 import re
 from youtube_transcript_api import YouTubeTranscriptApi
+import os
+from pytube import YouTube
 
+SMARTPROXY_USER = os.getenv("SMARTPROXY_USER")
+SMARTPROXY_PASSWORD = os.getenv("SMARTPROXY_PASSWORD")
+SMARTPROXY_URL = os.getenv("SMARTPROXY_URL")
+SMARTPROXY_PORT = os.getenv("SMARTPROXY_PORT")
+proxy = {
+    "http": f"http://{SMARTPROXY_USER}:{SMARTPROXY_PASSWORD}@{SMARTPROXY_URL}:{SMARTPROXY_PORT}",
+    "https": f"http://{SMARTPROXY_USER}:{SMARTPROXY_PASSWORD}@{SMARTPROXY_URL}:{SMARTPROXY_PORT}",
+}
 def get_youtube_video_id(url):
     """
     Extracts the video ID from a YouTube URL.
@@ -23,7 +33,7 @@ def get_youtube_subtitles(url):
         video_id = get_youtube_video_id(url)
         
         # Fetch the transcript for the given video id
-        transcript = YouTubeTranscriptApi.get_transcript(video_id)
+        transcript = YouTubeTranscriptApi.get_transcript(video_id, proxies=proxy)
         condensed_transcript = condense_transcript(transcript)
 
         # Return the subtitles in a list of dictionaries
@@ -57,3 +67,4 @@ def condense_transcript(transcript):
     condensed_transcript[current_minute] = ' '.join(current_chunk)
     
     return condensed_transcript
+

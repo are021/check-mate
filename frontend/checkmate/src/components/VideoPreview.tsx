@@ -7,7 +7,7 @@ function convertShortsToEmbed(shortsUrl:string) {
   
     if (match && match[1]) {
       const videoId = match[1];
-      return `https://www.youtube.com/embed/${videoId}`;
+      return `https://www.youtube.com/embed/${videoId}?controls=1&autoplay=0&mute=1&showinfo=0&modestbranding=1`;
     }
   
     // Return null or an error message if the URL is invalid
@@ -21,7 +21,7 @@ const VideoPreview = ({ videoURL="", width = '200', height = '300' }) => {
 
   const handleRedirect = () => {
     // Redirect to another URL and pass the current video URL as a query parameter
-    navigate(`/target-url?video=${encodeURIComponent(videoURL)}`);
+    navigate(`/video?link=${encodeURIComponent(videoURL)}`);
   };
   
     return (
@@ -38,7 +38,7 @@ const VideoPreview = ({ videoURL="", width = '200', height = '300' }) => {
         <button
             onClick={handleRedirect}
             className="absolute bottom-3 right-3 z-20 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-5 rounded pointer-events-auto"
-        >View!</button>
+        >View</button>
       </div>
     );
   };
