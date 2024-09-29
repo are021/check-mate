@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import MainLayout from "../layout/MainLayout";
 import { FaCheckCircle, FaChevronCircleDown, FaExclamationCircle, FaQuestionCircle } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
+import VideoComment from "../components/VideoComment";
 
 interface AiResult {
     [key: string]: Information;
@@ -19,6 +20,7 @@ export default function Video() {
 
     const [code, setCode] = useState<string>("")
     const [factCheckData, setFactCheckData] = useState<FactCheckData | null>(null);
+    const [loading, setLoading] = useState(true);
 
     // get the video link from the query string
     const urlParams = new URLSearchParams(window.location.search);
@@ -33,7 +35,7 @@ export default function Video() {
             }
         }
     }
-
+  
     useEffect(() => {
 
         async function fetchVideoData() {
@@ -51,17 +53,18 @@ export default function Video() {
             const data = await response.json();
             console.log(data)
             setFactCheckData(data);
+            setLoading(false);
         }        
         fetchVideoData();
         getVideoCode();
-
+      
     }, [])
 
     return (videoLink) ? (
         <MainLayout>
             <div className="w-full justify-center items-center flex flex-col">
                 <h1 className="text-3xl font-dm-serif-display mb-4">
-                    title summary
+                 fact checker
                 </h1>
                 <div className="flex gap-x-12">
                     <iframe
@@ -72,29 +75,18 @@ export default function Video() {
                         allowFullScreen
                     />
                     <div className="flex flex-col gap-y-8 max-w-[360px] max-h-[600px] overflow-y-auto pointer-events-auto">
-                        {
+                        {loading ?
+    <div className="flex items-center justify-center flex-grow animate-spin px-10 py-10">                               {/* Chess King Spinner */}
+                                    <img 
+                                        src="/images/chess-king.png" 
+                                        width={100} 
+                                        height={100} 
+                                    />
+                                </div>
+                     : 
                             factCheckData ? Object.keys(factCheckData.ai_result).map((key) => {
                                 return factCheckData.ai_result[key].information.map((data: string[]) => {
-                                    const [id, text] = data;
-                                    return (
-                                        <div>
-                                            <div className="flex gap-x-12 items-center justify-between">
-                                                <div className={twMerge("rounded-t-md px-4 pt-2 font-bold text-base font-courier-new flex gap-x-2 items-center", (id === "0") ? "bg-[#FCE4E4]" : (id === "1") ? "bg-[#EDFCE4]" : "bg-[#FFEEAD]")}>
-                                                    {(id === "0") ? <FaExclamationCircle size={12} /> : (id === "1") ? <FaCheckCircle size={12} /> : <FaQuestionCircle size={12} />}
-                                                    {(id === "0") ? "incorrect" : (id === "1") ? "correct" : "unknown"}
-                                                </div>
-                                                <div className="font-courier-new font-bold text-base">{key}:00:00</div>
-                                            </div>
-                                            <div className={twMerge("p-4 rounded-md rounded-tl-none", (id === "0") ? "bg-[#FCE4E4]" : (id === "1") ? "bg-[#EDFCE4]" : "bg-[#FFEEAD]")}>
-                                                <div className="mb-2 font-courier-new text-base">
-                                                    "{text}"
-                                                </div>
-                                                <button type="button" className="flex gap-x-2 font-courier-new text-base font-bold items-center w-full justify-center">
-                                                    see sources <FaChevronCircleDown />
-                                                </button>
-                                            </div>
-                                        </div>
-                                    )
+                                   return <VideoComment data={data}/>
                                 })
                             }) : <></>
                         }
