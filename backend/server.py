@@ -19,11 +19,6 @@ mongo_client = MongoClient(uri)
 db = mongo_client['check-mate']  
 collection = db['recent-videos']
 
-
-@app.route('/', methods=['GET'])
-def index():
-    return get_youtube_subtitles("https://www.youtube.com/shorts/pqTvUUIieCU")
-
 @app.route('/factcheck', methods=['POST'])
 def factcheck():
     text = request.json['url']
@@ -41,12 +36,14 @@ def factcheck():
         
         # If the URL doesn't exist, get the transcript and call the AI
         transcript = get_youtube_subtitles(text)
+        if ("error" in transcript):
+            return jsonify({"error": transcript["message"]}), 400
         ai_result = call_ai(transcript)
 
         # Add new document with the AI result to the database
         document = {
             "url": text,
-            "ai_result": json.dumps(ai_result),
+            "ai_result": ai_result,
             "timestamp": datetime.datetime.now()
         }
         collection.insert_one(document)
@@ -77,6 +74,17 @@ def recent_videos():
     except Exception as e:
         print(f"Error retrieving recent videos: {e}")
         return jsonify({"error": "Could not retrieve recent videos"}), 500
+    
+@app.route('/clear-videos', methods=['DELETE'])
+def clear_videos():
+    try:
+        # Clear the collection
+        result = collection.delete_many({})
+        return jsonify({"message": f"Deleted {result.deleted_count} videos"}), 200
+    except Exception as e:
+        print(f"Error clearing videos: {e}")
+        return jsonify({"error": "Could not clear videos"}), 500
+
   
 
 if __name__ == '__main__':

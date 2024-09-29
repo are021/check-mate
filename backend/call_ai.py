@@ -2,7 +2,7 @@ import os
 from groq import Groq
 import json
 from pydantic import BaseModel, Field, ValidationError
-from typing import List
+from typing import List, Tuple
 from langchain_core.prompts import ChatPromptTemplate
 
 from langchain_groq import ChatGroq
@@ -57,38 +57,58 @@ from langchain_openai import ChatOpenAI
 
 def call_ai(text: dict):
     class FactCheckModel(BaseModel):
-        incorrect_information: List[str]
-        correct_information: List[str]
-        uncertain_information: List[str]
-        sources: List[str]
+        # incorrect_information: List[str]
+        # correct_information: List[str]
+        # uncertain_information: List[str]
+        information: List[List[str]]
+        # sources: List[str]
 
-    models = ["llama3-8b-8192", "gemma2-9b-it", "mixtral-8x7b-32768", "llava-v1.5-7b-4096-preview"]
+    # models = ["llama3-8b-8192", "gemma2-9b-it", "mixtral-8x7b-32768"]
+    models = ["llama3-8b-8192"]
 
     client = Groq(
         api_key=os.environ.get("GROQ_API_KEY"),
     )
     responses = {}
 
-    
     for key, value in text.items():
-        prompt_content = (
-            f"Fact check this text: {value}. "
-            f"Please highlight the following in your response: Incorrect information, Correct information, Uncertain information, and Sources with links in JSON "
-            f"Your JSON object must look like this schema: {json.dumps(FactCheckModel.model_json_schema())}"
-        )
+        # for model in models:
+            # prompt = f"""Fact check this text: {value}.
+            #     Please highlight the following in your response:
+            #     Incorrect information, Correct information, Uncertain information, and Sources with links in JSON.
+            #     Your JSON object must look like this schema:"""+"""
+            #     {
+            #     "incorrect_information": ["list of incorrect statements"],
+            #     "correct_information": ["list of correct statements"],
+            #     "uncertain_information": ["list of uncertain statements"],
+            #     "sources": ["list of sources with links"]
+            #     }
+            #     """
+        prompt = f"""Fact check this text: {value}.
+            Please highlight the following in your response:
+            Incorrect information, Correct information, Uncertain information, and Sources with links in JSON.
+            Your JSON object must look like this schema:"""+"""
+            {
+            "information": [["0 for incorrect statements, "incorrect statement", "links for correct information"], ["1 for correct statements", "correct statement", "links for correct information"], ["2 for uncertain statements", "uncertain statement", "links for correct information"]],
+            }
+            """
 
         chat_completion = client.chat.completions.create(
             messages=[
                 {
-                    "role": "user",
-                    "content": prompt_content
+                    "role": "system",
+                    "content": prompt
                 }
             ],
-            model="llama3-8b-8192",
+            model=models[0],
             response_format={"type": "json_object"}
         )
-        res = json.loads(chat_completion.choices[0].message.content)["properties"]
-        # response = FactCheckModel.model_validate_json(chat_completion.choices[0].message.content)
-        responses[key] = res
 
+        if key not in responses:
+            responses[str(key)] = {}
+
+        msg = chat_completion.choices[0].message.content
+
+        responses[str(key)] = json.loads(msg)
+        # Second part is get the sources
     return responses
