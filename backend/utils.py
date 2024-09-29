@@ -33,8 +33,8 @@ def get_youtube_subtitles(url):
         video_id = get_youtube_video_id(url)
         
         # Fetch the transcript for the given video id
-        # transcript = YouTubeTranscriptApi.get_transcript(video_id, proxies=proxy)
-        transcript = YouTubeTranscriptApi.get_transcript(video_id)
+        transcript = YouTubeTranscriptApi.get_transcript(video_id, proxies=proxy)
+        # transcript = YouTubeTranscriptApi.get_transcript(video_id)
 
         condensed_transcript = condense_transcript(transcript)
 
