@@ -21,7 +21,7 @@ const VideoPreview = ({ videoURL, width = '200', height = '300' }) => {
 
   const handleRedirect = () => {
     // Redirect to another URL and pass the current video URL as a query parameter
-    navigate(`/target-url?video=${encodeURIComponent(videoURL)}`);
+    navigate(`/video?link=${encodeURIComponent(videoURL)}`);
   };
   
     return (
