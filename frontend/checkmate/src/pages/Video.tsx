@@ -37,7 +37,11 @@ export default function Video() {
     useEffect(() => {
 
         async function fetchVideoData() {
+            // console.log(videoLink)
+            // console.log("https://checkmate-backend-8puv.onrender.com/" )
             const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/factcheck`, {
+            // const response = await fetch(`http://127.0.0.1:8000/factcheck`, {
+
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -45,6 +49,7 @@ export default function Video() {
                 body: JSON.stringify({url: videoLink})
             })
             const data = await response.json();
+            console.log(data)
             setFactCheckData(data);
         }        
         fetchVideoData();
