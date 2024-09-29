@@ -21,7 +21,7 @@ const VideoPreview = ({ videoURL="", width = '200', height = '300' }) => {
 
   const handleRedirect = () => {
     // Redirect to another URL and pass the current video URL as a query parameter
-    navigate(`/video?link=${encodeURIComponent(videoURL)}`);
+    navigate(`/explore/video?link=${encodeURIComponent(videoURL)}`);
   };
   
     return (
@@ -37,7 +37,7 @@ const VideoPreview = ({ videoURL="", width = '200', height = '300' }) => {
         ></iframe>
         <button
             onClick={handleRedirect}
-            className="absolute bottom-3 right-3 z-20 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-5 rounded pointer-events-auto"
+            className="font-courier-new absolute bottom-3 right-3 z-20 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-5 rounded pointer-events-auto font-bold"
         >View</button>
       </div>
     );
