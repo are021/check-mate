@@ -3,7 +3,6 @@ import { useEffect } from "react";
 export default function InteractiveGrid() {
     
     function createGrid() {
-        console.log("eat my ass");
         // calculate the number of rows and columns needed
         const size = document.body.clientWidth > 800 ? 100 : 50;
         const cols = Math.floor(document.body.clientWidth / size);

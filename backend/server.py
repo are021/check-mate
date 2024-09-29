@@ -19,6 +19,11 @@ mongo_client = MongoClient(uri)
 db = mongo_client['check-mate']  
 collection = db['recent-videos']
 test_collection = db["cross_reference"]
+@app.route('/get_transcript', methods=['POST'])
+def get_transcript():
+    url = request.json['url']
+    transcript = get_youtube_subtitles(url)
+    return jsonify(transcript), 200
 
 @app.route('/factcheck', methods=['POST'])
 def factcheck():
@@ -27,20 +32,22 @@ def factcheck():
     if "youtube" in text:
         # Check if the URL already exists in the collection
         existing_entry = collection.find_one({"url": text})
-        
-        if existing_entry:
-            # Return the existing AI result if URL is found
-            return jsonify({
-                "url": text,
-                "ai_result": existing_entry['ai_result']
-            }), 200
+        # if existing_entry:
+        #     # Return the existing AI result if URL is found
+        #     return jsonify({
+        #         "url": text,
+        #         "ai_result": existing_entry['ai_result']
+        #     }), 200
         
         # If the URL doesn't exist, get the transcript and call the AI
         transcript = get_youtube_subtitles(text)
-        # if ("error" in transcript):
-        #     return jsonify({"error": transcript["message"]}), 400
-        ai_result = call_ai(transcript)
+        # print(transcript, flush=True)
+        print(transcript)
 
+        if ("error" in transcript and transcript["error"]):
+            return jsonify({"transcript_error": transcript["message"]}), 400
+        ai_result = call_ai(transcript)
+        # print(ai_result)
         # Add new document with the AI result to the database
         document = {
             "url": text,

@@ -1,6 +1,10 @@
+import { useState } from "react"
 import MainLayout from "../layout/MainLayout"
 
 export default function Home() {
+
+    const [videoLink, setVideoLink] = useState<string>("")
+
     return (
         <MainLayout>
             <div className="w-full h-full max-w-screen-sm flex flex-col items-center justify-center text-center gap-y-6">
@@ -9,8 +13,9 @@ export default function Home() {
                 <div className="max-w-screen-sm w-full flex items-center gap-x-4">
                     <input
                         className="w-full px-4 py-2 border-solid border-[#87A2FF] border-2 rounded-md text-lg font-courier-new pointer-events-auto"
+                        onChange={(e) => setVideoLink(e.target.value)}
                     />
-                    <button className="px-4 py-2 font-dm-serif-display text-white rounded-md bg-[#87A2FF] text-lg tracking-wider">check</button>
+                    <a href={`/explore/video?link=${videoLink}`} className="px-4 py-2 font-dm-serif-display text-white rounded-md bg-[#87A2FF] text-lg tracking-wider pointer-events-auto">check</a>
                 </div>
             </div>
         </MainLayout>

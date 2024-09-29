@@ -13,12 +13,8 @@ export default function Download() {
                         download
                     </button>
 
-                    {/* Arrow image */}
-                    <img
-                        src="/images/Arrow.png" // Using the provided path for the arrow image
-                        alt="Curved arrow"
-                        className="absolute left-[calc(100%+10px)] top-[50%] transform -translate-y-1/2 w-24" // Adjust the width and position as needed
-                    />
+               
+
                 </div>
 
                 <div className="">

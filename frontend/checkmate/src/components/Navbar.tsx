@@ -6,7 +6,6 @@ export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
     // const [isSticky, setIsSticky] = useState(false);
     const loc = useLocation();
-    console.log(loc.pathname);
 
     function toggleMenu() {
         setMenuOpen(!menuOpen);
@@ -31,7 +30,7 @@ export default function Navbar() {
     return (
         <div className="max-w-screen-lg w-full h-14 font-dm-serif-display flex justify-between items-center relative">
             <div className="text-2xl flex items-center gap-x-1">
-                <img src="/favicon.svg" width={28} height={28}/>
+                <img src="/images/chess-king.png" width={28} height={28}/>
                 Check Mate
             </div>
             {(menuOpen) ? (
