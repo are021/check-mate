@@ -19,6 +19,12 @@ mongo_client = MongoClient(uri)
 db = mongo_client['check-mate']  
 collection = db['recent-videos']
 
+@app.route('/get_transcript', methods=['POST'])
+def get_transcript():
+    url = request.json['url']
+    transcript = get_youtube_subtitles(url)
+    return jsonify(transcript), 200
+
 @app.route('/factcheck', methods=['POST'])
 def factcheck():
     text = request.json['url']
@@ -36,8 +42,8 @@ def factcheck():
         
         # If the URL doesn't exist, get the transcript and call the AI
         transcript = get_youtube_subtitles(text)
-        if ("error" in transcript):
-            return jsonify({"error": transcript["message"]}), 400
+        # if ("error" in transcript):
+        #     return jsonify({"error": transcript["message"]}), 400
         ai_result = call_ai(transcript)
 
         # Add new document with the AI result to the database
