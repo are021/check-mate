@@ -19,6 +19,12 @@ mongo_client = MongoClient(uri)
 db = mongo_client['check-mate']  
 collection = db['recent-videos']
 
+@app.route('/get_transcript', methods=['POST'])
+def get_transcript():
+    url = request.json['url']
+    transcript = get_youtube_subtitles(url)
+    return jsonify(transcript), 200
+
 @app.route('/factcheck', methods=['POST'])
 def factcheck():
     text = request.json['url']
@@ -37,6 +43,7 @@ def factcheck():
         transcript = get_youtube_subtitles(text)
         # print(transcript, flush=True)
         print(transcript)
+
         # if ("error" in transcript):
         #     return jsonify({"error": transcript["message"]}), 400
         ai_result = call_ai(transcript)
