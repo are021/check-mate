@@ -25,7 +25,7 @@ export default function ExploreFeed() {
 
     return (
       <div className="content-center">
-          <h1 className="text-5xl font-dm-serif-display pointer-events-none">Recently Checked Videos</h1>
+          <h1 className="text-5xl font-dm-serif-display pointer-events-none">recently checked videos</h1>
           <div className="flex flex-wrap gap-8 justify-center">
               {(videos !== null) ? videos.map((video: any, index: number) => (
                   <VideoPreview
