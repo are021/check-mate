@@ -14,10 +14,10 @@ export default function InteractiveGrid() {
         document.documentElement.style.setProperty('--rows', rows.toString());
 
         // generate all the grid divs
-        let grid = document.getElementById('grid');
+        const grid = document.getElementById('grid');
         for(let i = 0; i < rows; i++) {
             for(let j = 0; j < cols; j++) {
-                let tile = document.createElement('div');
+                const tile = document.createElement('div');
                 tile.classList.add((((i % 2) + j) % 2) ? 'tile' : 'black-tile')
                 grid?.appendChild(tile);
             }

@@ -208,6 +208,7 @@ function updateSidebarContent() {
 
 // Function to initialize or update the extension
 function initOrUpdateExtension() {
+    // console.log(window.location.href)
     if (isYouTubeWatchPage()) {
         const existingSidebar = document.getElementById('fact-check-sidebar');
         if (!existingSidebar) {

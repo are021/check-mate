@@ -8,7 +8,7 @@ export default function Home() {
                 <h4 className="text-xl font-courier-new">fact check a source simply by providing a link and we'll do the rest!</h4>
                 <div className="max-w-screen-sm w-full flex items-center gap-x-4">
                     <input
-                        className="w-full px-4 py-2 border-solid border-[#87A2FF] border-2 rounded-md text-lg font-courier-new"
+                        className="w-full px-4 py-2 border-solid border-[#87A2FF] border-2 rounded-md text-lg font-courier-new pointer-events-auto"
                     />
                     <button className="px-4 py-2 font-dm-serif-display text-white rounded-md bg-[#87A2FF] text-lg tracking-wider">check</button>
                 </div>

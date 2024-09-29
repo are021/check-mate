@@ -4,12 +4,29 @@ import { useLocation } from "react-router-dom";
 export default function Navbar() {
 
     const [menuOpen, setMenuOpen] = useState(false);
+    // const [isSticky, setIsSticky] = useState(false);
     const loc = useLocation();
     console.log(loc.pathname);
 
     function toggleMenu() {
         setMenuOpen(!menuOpen);
     }
+
+    // useEffect(() => {
+    //     const handleScroll = () => {
+    //       if (window.scrollY > 0) {
+    //         setIsSticky(true);
+    //       } else {
+    //         setIsSticky(false);
+    //       }
+    //     };
+    
+    //     window.addEventListener('scroll', handleScroll);
+    
+    //     return () => {
+    //       window.removeEventListener('scroll', handleScroll);
+    //     };
+    //   }, []);
 
     return (
         <div className="max-w-screen-lg w-full h-14 font-dm-serif-display flex justify-between items-center relative">
@@ -27,11 +44,12 @@ export default function Navbar() {
             <button className="flex gap-x-1 md:hidden" type="button" onClick={toggleMenu}>
                 s
             </button>
-            <div className="hidden md:flex items-center gap-x-4 text-xl">
+            <div className="hidden md:flex items-center gap-x-4 text-xl pointer-events-auto">
                 <a className={`${loc.pathname === '/' ? 'active-link':''}`} href="/">home</a>
-                <a className={`${loc.pathname === '/explore'} ? 'active-link' : ''`} href="/explore">explore</a>
-                <a className={`${loc.pathname === '/download'} ? 'active-link' : ''`} href="/download">download</a>
+                <a className={`${loc.pathname === '/explore' ? 'active-link' : ''}`} href="/explore">explore</a>
+                <a className={`${loc.pathname === '/download' ? 'active-link' : ''}`} href="/download">download</a>
             </div>
         </div>
     )
+
 }

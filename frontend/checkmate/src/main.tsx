@@ -6,6 +6,8 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Home from './pages/Home';
+import Explore from './pages/explore';
+import Download from './pages/download';
 
 const router = createBrowserRouter([
   {
@@ -14,10 +16,10 @@ const router = createBrowserRouter([
   },
   {
     path: "/explore",
-    element: <div>Explore</div>
+    element: <Explore />
   }, {
     path: "/download",
-    element: <div>Download</div>
+    element: <Download />
   }
 ]);
 
