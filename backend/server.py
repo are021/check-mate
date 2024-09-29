@@ -18,6 +18,7 @@ uri = os.getenv("MONGODB_URI")
 mongo_client = MongoClient(uri) 
 db = mongo_client['check-mate']  
 collection = db['recent-videos']
+test_collection = db["cross_reference"]
 
 @app.route('/factcheck', methods=['POST'])
 def factcheck():
@@ -92,7 +93,7 @@ def cross_reference():
 
     if "youtube" in text:
         # Check if the URL already exists in the collection
-        existing_entry = collection.find_one({"url": text})
+        existing_entry = test_collection.find_one({"url": text})
         
         if existing_entry:
             # Return the existing AI result if URL is found
@@ -113,7 +114,7 @@ def cross_reference():
             "ai_result": ai_result,
             "timestamp": datetime.datetime.now()
         }
-        collection.insert_one(document)
+        test_collection.insert_one(document)
 
         # Return the AI result
         return jsonify({

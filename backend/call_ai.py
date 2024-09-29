@@ -65,7 +65,7 @@ def call_ai(text: dict):
         # sources: List[str]
 
     # models = ["llama3-8b-8192", "gemma2-9b-it", "mixtral-8x7b-32768"]
-    models = ["llama3-8b-8192"]
+    models = ["llama3-70b-8192","llama-3.1-70b-versatile"]
 
     client = Groq(
         api_key=os.environ.get("GROQ_API_KEY"),
