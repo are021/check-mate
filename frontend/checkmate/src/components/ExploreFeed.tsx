@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import VideoPreview from './VideoPreview';
 
 export default function ExploreFeed() {
-    const [videos, setVideos] = useState();
+    const [videos, setVideos] = useState<any | null>(null);
 
   // Fetch video data on page load
   useEffect(() => {
@@ -10,8 +10,9 @@ export default function ExploreFeed() {
       try {
         const response = await fetch('https://checkmate-backend-8puv.onrender.com/recent-videos'); // Replace with your API URL
         let data = await response.json();
-        console.log(data ? data : "No data");
-        setVideos(data);
+        if (data) {
+          setVideos(data);
+        }
       } catch (error) {
         console.log('Error fetching videos:', error);
       }
@@ -24,7 +25,7 @@ export default function ExploreFeed() {
         <div className="content-center">
             <h1 className="text-5xl font-dm-serif-display pointer-events-none">recently checked videos</h1>
             <div className="grid grid-cols-5 gap-8 ">
-                {videos ? videos.map((video, index) => (
+                {(videos !== null) ? videos.map((video:any, index:number) => (
                     <VideoPreview
                         key={index} // Unique key for each element in the list
                         videoURL={video.url} // Corrected prop name

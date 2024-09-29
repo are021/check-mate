@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
 
-function convertShortsToEmbed(shortsUrl) {
+function convertShortsToEmbed(shortsUrl:string) {
     const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/shorts\/|youtu\.be\/)([^/?]+)/;
     const match = shortsUrl.match(regex);
   
@@ -15,7 +15,7 @@ function convertShortsToEmbed(shortsUrl) {
   }
   
 
-const VideoPreview = ({ videoURL, width = '200', height = '300' }) => {
+const VideoPreview = ({ videoURL="", width = '200', height = '300' }) => {
   const navigate = useNavigate();
   const embedUrl = convertShortsToEmbed(videoURL);
 
@@ -29,7 +29,7 @@ const VideoPreview = ({ videoURL, width = '200', height = '300' }) => {
         <iframe
             width={width}
             height={height}
-            src={embedUrl}
+            src={embedUrl? embedUrl : ""}
             title="Video Preview"
             className="rounded-lg"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
