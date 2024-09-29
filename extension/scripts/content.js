@@ -46,10 +46,44 @@ function getVideoTitle() {
     return titleElement ? titleElement.textContent.trim() : 'Video Title Not Found';
 }
 
+const pull = async () => {
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "url": "https://youtube.com/shorts/J9yGsD4FZq4?si=rhnGWAyJpv4OznuD"
+        })
+    };
+    
+    console.log('Fetch options:', options); // Debug to make sure options are correct
+
+    try {
+        const response = await fetch('http://localhost:8000/factcheck', options);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
+
+
+
+
 // Placeholder function to get text bubbles (replace with your implementation)
-function getTextBubbles() {
+function getTextBubbles () {
     // This is where you'll implement your logic to fetch and parse the JSON object
     // For now, we'll return some dummy data
+    // fetch()
+    let videoUrl = window.location.href;
+    data = pull(videoUrl);
     return [
         { text: "Fact check 1", type: "info" },
         { text: "Fact check 2", type: "warning" },
