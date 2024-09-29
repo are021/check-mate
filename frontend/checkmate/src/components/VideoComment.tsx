@@ -1,37 +1,37 @@
-import { FaCheckCircle, FaChevronCircleDown, FaExclamationCircle, FaQuestionCircle } from "react-icons/fa";
+import { FaCheckCircle, FaChevronCircleDown, FaChevronCircleUp, FaExclamationCircle, FaQuestionCircle } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
+import { useEffect, useState } from 'react';
 
-interface VideoCommentProps {
-    truth: string;
-    timestamp: string;
-    text: string;
-    sources: string[];
-}
+export default function VideoComment({data}) {
+    const [openDropdown, setDropdown] = useState(false);
+    let [id, text, link] = data;
+    id = id.toString()[0];
 
-export default function VideoComment({truth, timestamp, text}: VideoCommentProps) {
-    const colorLight = (truth === "0") ? "#FCE4E4" : (truth === "1") ? "#EDFCE4" : "#FFEEAD"
-    const colorDark = (truth === "0") ? "#F97373" : (truth === "1") ? "#37DD6E" : "#F9F9A3"
-    const icon = (truth === "0") ? <FaExclamationCircle size={16} color={colorDark} /> : (truth === "1") ? <FaCheckCircle size={16} color={colorDark}/> : <FaQuestionCircle size={16} color={colorDark}/>
-    const res = (truth === "0") ? "incorrect" : (truth === "1") ? "correct" : "unknown"
+    const toggleDropdown = () => setDropdown(!openDropdown);
 
-    return (
+    return (id ? 
         <div>
             <div className="flex gap-x-12 items-center justify-between">
-                <div className={twMerge("rounded-t-md px-4 pt-2 font-bold text-base font-courier-new flex gap-x-2 items-center", `bg-[${colorLight}]`)}>
-                    {icon}
-                    {res}
+                <div className={twMerge("rounded-t-md px-4 pt-2 font-bold text-base font-courier-new flex gap-x-2 items-center", (id === "0") ? "bg-[#FCE4E4]" : (id === "1") ? "bg-[#EDFCE4]" : "bg-[#FFEEAD]")}>
+                    {(id === "0") ? <FaExclamationCircle size={12} /> : (id === "1") ? <FaCheckCircle size={12} /> : <FaQuestionCircle size={12} />}
+                    {(id === "0") ? "incorrect" : (id === "1") ? "correct" : "unknown"}
                 </div>
-                <div className="font-courier-new font-bold text-base">{timestamp}:00:00</div>
+                {/* <div className="font-courier-new font-bold text-base">{key}:00:00</div> */}
             </div>
-            <div className={twMerge("p-4 rounded-md rounded-tl-none", `bg-[${colorLight}]`)}>
-                <div className="mb-2 font-courier-new text-base">
+            <div className={twMerge("p-4 rounded-md rounded-tl-none", (id === "0") ? "bg-[#FCE4E4]" : (id === "1") ? "bg-[#EDFCE4]" : "bg-[#FFEEAD]")}>
+                <div className="mb-2 font-courier-new text-base" onClick={toggleDropdown}>
                     "{text}"
                 </div>
-                <button type="button" className="flex gap-x-2 font-courier-new text-base font-bold items-center w-full justify-center">
-                    see sources <FaChevronCircleDown />
-                </button>
+                
+                {link ? <div><button type="button" onClick={toggleDropdown} className="flex gap-x-2 font-courier-new text-base font-bold items-center w-full justify-center">
+                        see source {openDropdown ? <FaChevronCircleUp /> : <FaChevronCircleDown />}
+                    </button>
+                    <div className="font-courier-new text-base font-bold items-center">
+                        {openDropdown ? <a className="items-center font-bold underline" href={link}>{link}</a>: null}
+                    </div> 
+                </div>: <></>}
+                
             </div>
         </div>
-
-    )
+    : null)
 }
