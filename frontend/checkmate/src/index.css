@@ -52,7 +52,7 @@ html, body {
 
 .black-tile {
     position: relative;
-    background-color: #EAE4DD;
+    background-color: #fef7f0;
     transition: background-color 0.5s;
     transition-delay: 0.5s;
     opacity: 0.5;
