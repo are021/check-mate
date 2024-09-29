@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from utils import get_youtube_subtitles
 from dotenv import load_dotenv
-from call_ai import call_ai
+from call_ai import call_ai, cross_ai_check
 import os
 import datetime
 from pymongo.mongo_client import MongoClient
@@ -36,8 +36,8 @@ def factcheck():
         
         # If the URL doesn't exist, get the transcript and call the AI
         transcript = get_youtube_subtitles(text)
-        if ("error" in transcript):
-            return jsonify({"error": transcript["message"]}), 400
+        # if ("error" in transcript):
+        #     return jsonify({"error": transcript["message"]}), 400
         ai_result = call_ai(transcript)
 
         # Add new document with the AI result to the database
@@ -84,6 +84,45 @@ def clear_videos():
     except Exception as e:
         print(f"Error clearing videos: {e}")
         return jsonify({"error": "Could not clear videos"}), 500
+    
+
+@app.route('/cross_ref', methods=['POST'])
+def cross_reference():
+    text = request.json['url']
+
+    if "youtube" in text:
+        # Check if the URL already exists in the collection
+        existing_entry = collection.find_one({"url": text})
+        
+        if existing_entry:
+            # Return the existing AI result if URL is found
+            return jsonify({
+                "url": text,
+                "ai_result": existing_entry['ai_result']
+            }), 200
+        
+        # If the URL doesn't exist, get the transcript and call the AI
+        transcript = get_youtube_subtitles(text)
+        # if ("error" in transcript):
+        #     return jsonify({"error": transcript["message"]}), 400
+        ai_result = cross_ai_check(transcript)
+
+        # Add new document with the AI result to the database
+        document = {
+            "url": text,
+            "ai_result": ai_result,
+            "timestamp": datetime.datetime.now()
+        }
+        collection.insert_one(document)
+
+        # Return the AI result
+        return jsonify({
+            "url": text,
+            "ai_result": ai_result
+        }), 200
+
+    else:
+        return jsonify({"error": "Invalid URL"}), 400
 
   
 

@@ -7,6 +7,7 @@ from langchain_core.prompts import ChatPromptTemplate
 
 from langchain_groq import ChatGroq
 from langchain_openai import ChatOpenAI
+from cross_reference import cross_reference
 
 
 # def call_ai(text: dict):
@@ -112,3 +113,56 @@ def call_ai(text: dict):
         responses[str(key)] = json.loads(msg)
         # Second part is get the sources
     return responses
+
+
+
+def cross_ai_check(text: dict):
+    # We run teh analysis on our three models
+    class FactCheckModel(BaseModel):
+        information: List[List[str]]
+
+    models = ["llama3-8b-8192", "gemma2-9b-it", "mixtral-8x7b-32768"]
+
+    client = Groq(
+        api_key=os.environ.get("GROQ_API_KEY"),
+    )
+
+    responses = {}
+
+    for key, value in text.items():
+        for model in models:
+            prompt = f"""Fact check this text: {value}.
+                Please highlight the following in your response:
+                Incorrect information, Correct information, Uncertain information, and Sources with links in JSON.
+                Your JSON object must look like this schema:"""+"""
+                {
+                "information": [["0 for incorrect statements, "incorrect statement", "links for correct information"], ["1 for correct statements", "correct statement", "links for correct information"], ["2 for uncertain statements", "uncertain statement", "links for correct information"]],
+                }
+                """
+
+            chat_completion = client.chat.completions.create(
+                messages=[
+                    {
+                        "role": "system",
+                        "content": prompt
+                    }
+                ],
+                model=model,
+                response_format={"type": "json_object"}
+            )
+
+            if str(key) not in responses:
+                responses[str(key)] = {}
+
+            msg = chat_completion.choices[0].message.content
+
+            responses[str(key)][model] = msg
+    
+    # We call a lambda function to run vector similarity on the three models
+
+    # print("Responses: ", responses)
+
+    # return {}
+    new_response = cross_reference(responses, models)
+
+    return new_response
