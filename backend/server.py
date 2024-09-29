@@ -31,11 +31,13 @@ def factcheck():
             # Return the existing AI result if URL is found
             return jsonify({
                 "url": text,
-                "ai_result": json.loads(existing_entry['ai_result'])
+                "ai_result": existing_entry['ai_result']
             }), 200
         
         # If the URL doesn't exist, get the transcript and call the AI
         transcript = get_youtube_subtitles(text)
+        if ("error" in transcript):
+            return jsonify({"error": transcript["message"]}), 400
         ai_result = call_ai(transcript)
 
         # Add new document with the AI result to the database
