@@ -75,7 +75,7 @@ export default function Video() {
                         {
                             factCheckData ? Object.keys(factCheckData.ai_result).map((key) => {
                                 return factCheckData.ai_result[key].information.map((data: string[]) => {
-                                    const [id, text, source] = data;
+                                    const [id, text] = data;
                                     return (
                                         <div>
                                             <div className="flex gap-x-12 items-center justify-between">
