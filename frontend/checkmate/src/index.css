@@ -65,3 +65,35 @@ html, body {
 .active-link {
     @apply underline underline-offset-2 decoration-solid decoration-2;
 }
+
+.fall {
+    transform-origin: bottom left;
+    animation: fall 1s forwards;
+}
+
+@keyframes fall {
+    0% {
+        transform: rotate(0deg);
+    }
+    30% {
+        transform: translateX(12px) rotate(-90deg);
+    }
+    50% {
+        transform: translateX(12px) rotate(-50deg);
+    }
+    60% {
+        transform: translateX(12px) rotate(-90deg);
+    }
+    70% {
+        transform: translateX(12px) rotate(-60deg);
+    }
+    80% {
+        transform: translateX(12px) rotate(-90deg);
+    }
+    90% {
+        transform: translateX(12px) rotate(-80deg);
+    }
+    100% {
+        transform: translateX(12px) rotate(-90deg);
+    }
+}
