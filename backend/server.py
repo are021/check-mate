@@ -26,7 +26,6 @@ def factcheck():
     if "youtube" in text:
         # Check if the URL already exists in the collection
         existing_entry = collection.find_one({"url": text})
-        
         if existing_entry:
             # Return the existing AI result if URL is found
             return jsonify({
@@ -36,10 +35,12 @@ def factcheck():
         
         # If the URL doesn't exist, get the transcript and call the AI
         transcript = get_youtube_subtitles(text)
-        if ("error" in transcript):
-            return jsonify({"error": transcript["message"]}), 400
+        # print(transcript, flush=True)
+        print(transcript)
+        # if ("error" in transcript):
+        #     return jsonify({"error": transcript["message"]}), 400
         ai_result = call_ai(transcript)
-
+        # print(ai_result)
         # Add new document with the AI result to the database
         document = {
             "url": text,
