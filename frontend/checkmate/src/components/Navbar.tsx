@@ -4,35 +4,18 @@ import { useLocation } from "react-router-dom";
 export default function Navbar() {
 
     const [menuOpen, setMenuOpen] = useState(false);
-    // const [isSticky, setIsSticky] = useState(false);
     const loc = useLocation();
 
     function toggleMenu() {
         setMenuOpen(!menuOpen);
     }
 
-    // useEffect(() => {
-    //     const handleScroll = () => {
-    //       if (window.scrollY > 0) {
-    //         setIsSticky(true);
-    //       } else {
-    //         setIsSticky(false);
-    //       }
-    //     };
-    
-    //     window.addEventListener('scroll', handleScroll);
-    
-    //     return () => {
-    //       window.removeEventListener('scroll', handleScroll);
-    //     };
-    //   }, []);
-
     return (
         <div className="max-w-screen-lg w-full h-14 font-dm-serif-display flex justify-between items-center relative">
-            <div className="text-2xl flex items-center gap-x-1">
+            <a href="/" className="text-2xl flex items-center gap-x-1 pointer-events-auto">
                 <img src="/images/chess-king.png" width={28} height={28}/>
                 Check Mate
-            </div>
+            </a>
             {(menuOpen) ? (
                 <div className="w-full rounded-md p-4 text-center md:hidden absolute top-full bg-white flex flex-col">
                     <a className="border-b-2 border-black border-solid py-2" href="/">home</a>
