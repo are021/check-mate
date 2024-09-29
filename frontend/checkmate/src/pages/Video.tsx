@@ -41,8 +41,8 @@ export default function Video() {
         async function fetchVideoData() {
             // console.log(videoLink)
             // console.log("https://checkmate-backend-8puv.onrender.com/" )
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/factcheck`, {
-            // const response = await fetch(`http://127.0.0.1:8000/factcheck`, {
+            // const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/factcheck`, {
+            const response = await fetch(`http://127.0.0.1:8000/factcheck`, {
 
                 method: "POST",
                 headers: {
@@ -74,7 +74,7 @@ export default function Video() {
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
                         allowFullScreen
                     />
-                    <div className="flex flex-col gap-y-8 max-w-[360px] max-h-[600px] overflow-y-auto pointer-events-auto">
+                    <div className="flex flex-col gap-y-8 max-w-[360px] max-h-[600px] overflow-y-auto overflow-x-hidden pointer-events-auto">
                         {loading ?
     <div className="flex items-center justify-center flex-grow animate-spin px-10 py-10">                               {/* Chess King Spinner */}
                                     <img 

@@ -27,7 +27,8 @@ export default function VideoComment({data}) {
                         see source {openDropdown ? <FaChevronCircleUp /> : <FaChevronCircleDown />}
                     </button>
                     <div className="font-courier-new text-base font-bold items-center">
-                        {openDropdown ? <a className="items-center font-bold underline" href={link}>{link}</a>: null}
+                        {openDropdown ? <a className="break-words font-bold underline" href={link}>{link}
+                            </a>: null}
                     </div> 
                 </div>: <></>}
                 
