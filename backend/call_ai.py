@@ -57,63 +57,124 @@ from cross_reference import cross_reference
 
 
 def call_ai(text: dict):
-    class FactCheckModel(BaseModel):
-        # incorrect_information: List[str]
-        # correct_information: List[str]
-        # uncertain_information: List[str]
-        information: List[List[str]]
-        # sources: List[str]
+    try:
+        class FactCheckModel(BaseModel):
+            # incorrect_information: List[str]
+            # correct_information: List[str]
+            # uncertain_information: List[str]
+            information: List[List[str]]
+            # sources: List[str]
 
-    # models = ["llama3-8b-8192", "gemma2-9b-it", "mixtral-8x7b-32768"]
-    models = ["llama3-70b-8192","llama-3.1-70b-versatile"]
+        # models = ["llama3-8b-8192", "gemma2-9b-it", "mixtral-8x7b-32768"]
+        models = ["llama3-70b-8192","llama-3.1-70b-versatile"]
 
-    client = Groq(
-        api_key=os.environ.get("GROQ_API_KEY"),
-    )
-    responses = {}
-
-    for key, value in text.items():
-        # for model in models:
-            # prompt = f"""Fact check this text: {value}.
-            #     Please highlight the following in your response:
-            #     Incorrect information, Correct information, Uncertain information, and Sources with links in JSON.
-            #     Your JSON object must look like this schema:"""+"""
-            #     {
-            #     "incorrect_information": ["list of incorrect statements"],
-            #     "correct_information": ["list of correct statements"],
-            #     "uncertain_information": ["list of uncertain statements"],
-            #     "sources": ["list of sources with links"]
-            #     }
-            #     """
-        prompt = f"""Fact check this text: {value}.
-            Please highlight the following in your response:
-            Incorrect information, Correct information, Uncertain information, and Sources with links in JSON.
-            Your JSON object must look like this schema:"""+"""
-            {
-            "information": [["0 for incorrect statements, "incorrect statement", "links for correct information"], ["1 for correct statements", "correct statement", "links for correct information"], ["2 for uncertain statements", "uncertain statement", "links for correct information"]],
-            }
-            """
-
-        chat_completion = client.chat.completions.create(
-            messages=[
-                {
-                    "role": "system",
-                    "content": prompt
-                }
-            ],
-            model=models[0],
-            response_format={"type": "json_object"}
+        client = Groq(
+            api_key=os.environ.get("GROQ_API_KEY")
         )
+        responses = {}
 
-        if key not in responses:
-            responses[str(key)] = {}
+        for key, value in text.items():
+            # for model in models:
+                # prompt = f"""Fact check this text: {value}.
+                #     Please highlight the following in your response:
+                #     Incorrect information, Correct information, Uncertain information, and Sources with links in JSON.
+                #     Your JSON object must look like this schema:"""+"""
+                #     {
+                #     "incorrect_information": ["list of incorrect statements"],
+                #     "correct_information": ["list of correct statements"],
+                #     "uncertain_information": ["list of uncertain statements"],
+                #     "sources": ["list of sources with links"]
+                #     }
+                #     """
+            prompt = f"""Fact check this text: {value}.
+                Please highlight the following in your response:
+                Incorrect information, Correct information, Uncertain information, and Sources with links in JSON.
+                Your JSON object must look like this schema:"""+"""
+                {
+                "information": [["0 for incorrect statements, "incorrect statement", "always have a link to correct information or put empty string"], ["1 for correct statements", "correct statement", "always have a link to correct information or empty string"], ["2 for uncertain statements", "uncertain statement", "always have a link to correct information or empty string"]],
+                }
+                """
 
-        msg = chat_completion.choices[0].message.content
+            chat_completion = client.chat.completions.create(
+                messages=[
+                    {
+                        "role": "system",
+                        "content": prompt
+                    }
+                ],
+                model=models[0],
+                response_format={"type": "json_object"}
+            )
 
-        responses[str(key)] = json.loads(msg)
-        # Second part is get the sources
-    return responses
+            if key not in responses:
+                responses[str(key)] = {}
 
+            msg = chat_completion.choices[0].message.content
+
+            responses[str(key)] = json.loads(msg)
+            # Second part is get the sources
+        return responses
+    except:
+        try:
+            print("Trying Again")
+            class FactCheckModel(BaseModel):
+            # incorrect_information: List[str]
+            # correct_information: List[str]
+            # uncertain_information: List[str]
+                information: List[List[str]]
+            # sources: List[str]
+
+            # models = ["llama3-8b-8192", "gemma2-9b-it", "mixtral-8x7b-32768"]
+            models = ["llama3-70b-8192","llama-3.1-70b-versatile"]
+
+            client = Groq(
+                api_key=os.environ.get("GROQ_API_KEY")
+            )
+            responses = {}
+
+            for key, value in text.items():
+                # for model in models:
+                    # prompt = f"""Fact check this text: {value}.
+                    #     Please highlight the following in your response:
+                    #     Incorrect information, Correct information, Uncertain information, and Sources with links in JSON.
+                    #     Your JSON object must look like this schema:"""+"""
+                    #     {
+                    #     "incorrect_information": ["list of incorrect statements"],
+                    #     "correct_information": ["list of correct statements"],
+                    #     "uncertain_information": ["list of uncertain statements"],
+                    #     "sources": ["list of sources with links"]
+                    #     }
+                    #     """
+                prompt = f"""Fact check this text: {value}.
+                    Please highlight the following in your response:
+                    Incorrect information, Correct information, Uncertain information, and Sources with links in JSON.
+                    Your JSON object must look like this schema:"""+"""
+                    {
+                    "information": [["0 for incorrect statements, "incorrect statement", "always have a link to correct information or put empty string"], ["1 for correct statements", "correct statement", "always have a link to correct information or empty string"], ["2 for uncertain statements", "uncertain statement", "always have a link to correct information or empty string"]],
+                    }
+                    """
+
+                chat_completion = client.chat.completions.create(
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": prompt
+                        }
+                    ],
+                    model=models[0],
+                    response_format={"type": "json_object"}
+                )
+
+                if key not in responses:
+                    responses[str(key)] = {}
+
+                msg = chat_completion.choices[0].message.content
+
+                responses[str(key)] = json.loads(msg)
+                # Second part is get the sources
+            return responses
+        except:
+            return {"transcript_error": "An error occurred"}
 
 
 def cross_ai_check(text: dict):
