@@ -36,7 +36,7 @@ def factcheck():
             # Return the existing AI result if URL is found
             return jsonify({
                 "url": text,
-                "ai_result": existing_entry['ai_result']
+                "ai_result": json.loads(existing_entry['ai_result'])
             }), 200
         
         # If the URL doesn't exist, get the transcript and call the AI
@@ -46,7 +46,7 @@ def factcheck():
         # Add new document with the AI result to the database
         document = {
             "url": text,
-            "ai_result": json.dumps(ai_result),
+            "ai_result": ai_result,
             "timestamp": datetime.datetime.now()
         }
         collection.insert_one(document)
@@ -77,6 +77,17 @@ def recent_videos():
     except Exception as e:
         print(f"Error retrieving recent videos: {e}")
         return jsonify({"error": "Could not retrieve recent videos"}), 500
+    
+@app.route('/clear-videos', methods=['DELETE'])
+def clear_videos():
+    try:
+        # Clear the collection
+        result = collection.delete_many({})
+        return jsonify({"message": f"Deleted {result.deleted_count} videos"}), 200
+    except Exception as e:
+        print(f"Error clearing videos: {e}")
+        return jsonify({"error": "Could not clear videos"}), 500
+
   
 
 if __name__ == '__main__':

@@ -62,33 +62,51 @@ def call_ai(text: dict):
         uncertain_information: List[str]
         sources: List[str]
 
-    models = ["llama3-8b-8192", "gemma2-9b-it", "mixtral-8x7b-32768", "llava-v1.5-7b-4096-preview"]
+    models = ["llama3-8b-8192", "gemma2-9b-it", "mixtral-8x7b-32768"]
 
     client = Groq(
         api_key=os.environ.get("GROQ_API_KEY"),
     )
     responses = {}
 
-    
     for key, value in text.items():
-        prompt_content = (
-            f"Fact check this text: {value}. "
-            f"Please highlight the following in your response: Incorrect information, Correct information, Uncertain information, and Sources with links in JSON "
-            f"Your JSON object must look like this schema: {json.dumps(FactCheckModel.model_json_schema())}"
-        )
-
-        chat_completion = client.chat.completions.create(
-            messages=[
+        for model in models:
+            prompt = f"""Fact check this text: {value}.
+                Please highlight the following in your response:
+                Incorrect information, Correct information, Uncertain information, and Sources with links in JSON.
+                Your JSON object must look like this schema:"""+"""
                 {
-                    "role": "user",
-                    "content": prompt_content
+                "incorrect_information": ["list of incorrect statements"],
+                "correct_information": ["list of correct statements"],
+                "uncertain_information": ["list of uncertain statements"],
+                "sources": ["list of sources with links"]
                 }
-            ],
-            model="llama3-8b-8192",
-            response_format={"type": "json_object"}
-        )
-        res = json.loads(chat_completion.choices[0].message.content)["properties"]
-        # response = FactCheckModel.model_validate_json(chat_completion.choices[0].message.content)
-        responses[key] = res
+                """
 
+            chat_completion = client.chat.completions.create(
+                messages=[
+                    {
+                        "role": "system",
+                        "content": prompt
+                    }
+                ],
+                model=model,
+                response_format={"type": "json_object"}
+            )
+            # res = json.loads(chat_completion.choices[0].message.content)["properties"]
+            # response = FactCheckModel.model_validate_json(chat_completion.choices[0].message.content)
+            # if key not in responses:
+            #     responses[key] = {model : res}
+        
+            # responses[key] = json.loads(chat_completion.choices[0].message.content)
+            if key not in responses:
+                responses[key] = {}
+
+            msg = chat_completion.choices[0].message.content
+
+            responses[key][model] = json.loads(msg)
+            # if isinstance(msg, str):
+            #     responses[key][model] = {json.loads(msg)}
+            # elif isinstance(msg, dict):
+            #     responses[key][model] = {chat_completion.choices[0].message.content}
     return responses
