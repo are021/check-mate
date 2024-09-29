@@ -9,6 +9,9 @@ export default {
       fontFamily: {
         'courier-new': ['Courier New', 'monospace'],
       },
+      cursor: {
+        'highlighter': "url(/cursor.png), crosshair",
+      }
     },
   },
   plugins: [],

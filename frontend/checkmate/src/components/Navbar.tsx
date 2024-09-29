@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaBars } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 
 export default function Navbar() {
@@ -17,14 +18,14 @@ export default function Navbar() {
                 Check Mate
             </a>
             {(menuOpen) ? (
-                <div className="w-full rounded-md p-4 text-center md:hidden absolute top-full bg-white flex flex-col">
+                <div className="w-full rounded-md p-4 text-center md:hidden absolute top-full bg-white flex flex-col pointer-events-auto border-2 border-solid border-black">
                     <a className="border-b-2 border-black border-solid py-2" href="/">home</a>
                     <a className="border-b-2 border-black border-solid py-2" href="/">explore</a>
                     <a className="py-2" href="/">download</a>
                 </div>
             ) : <></>}
-            <button className="flex gap-x-1 md:hidden" type="button" onClick={toggleMenu}>
-                s
+            <button className="flex gap-x-1 md:hidden pointer-events-auto" type="button" onClick={toggleMenu}>
+                <FaBars size={24}/>
             </button>
             <div className="hidden md:flex items-center gap-x-4 text-xl pointer-events-auto">
                 <a className={`${loc.pathname === '/' ? 'active-link':''}`} href="/">home</a>

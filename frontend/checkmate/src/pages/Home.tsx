@@ -18,7 +18,7 @@ export default function Home() {
                     <a href={`/explore/video?link=${videoLink}`} className="px-4 py-2 font-dm-serif-display text-white rounded-md bg-[#87A2FF] text-lg tracking-wider pointer-events-auto">check</a>
                 </div>
                 <div className="text-base font-courier-new font-bold flex items-end gap-x-1 text-start">
-                    <img src="/public/images/Arrow 07.png"/>
+                    <img src="/images/Arrow 07.png"/>
                     <p className="mb-2">
                         try it out by<br/> linking a video!
                     </p>
