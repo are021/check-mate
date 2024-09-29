@@ -19,11 +19,6 @@ mongo_client = MongoClient(uri)
 db = mongo_client['check-mate']  
 collection = db['recent-videos']
 
-
-@app.route('/', methods=['GET'])
-def index():
-    return get_youtube_subtitles("https://www.youtube.com/shorts/pqTvUUIieCU")
-
 @app.route('/factcheck', methods=['POST'])
 def factcheck():
     text = request.json['url']
