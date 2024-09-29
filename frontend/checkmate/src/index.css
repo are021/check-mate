@@ -46,6 +46,8 @@ html, body {
 
 .tile {
     position: relative;
+    transition: background-color 0.5s;
+    transition-delay: 0.5s;
 }
 
 .black-tile {
