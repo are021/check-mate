@@ -13,6 +13,7 @@ export default function Home() {
                 <div className="max-w-screen-sm w-full flex items-center gap-x-4">
                     <input
                         className="w-full px-4 py-2 border-solid border-[#87A2FF] border-2 rounded-md text-lg font-courier-new pointer-events-auto"
+                        placeholder="video url"
                         onChange={(e) => setVideoLink(e.target.value)}
                     />
                     <a href={`/explore/video?link=${videoLink}`} className="px-4 py-2 font-dm-serif-display text-white rounded-md bg-[#87A2FF] text-lg tracking-wider pointer-events-auto">check</a>

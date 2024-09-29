@@ -55,11 +55,10 @@ html, body {
     background-color: #fef7f0;
     transition: background-color 0.5s;
     transition-delay: 0.5s;
-    opacity: 0.5;
 }
 
 .black-tile:hover, .tile:hover {
-    background-color: #FFFF00;
+    background-color: rgba(0, 0, 0, 0.5);
     transition-delay: 0s;
 }
 
