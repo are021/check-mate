@@ -6,7 +6,6 @@ export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
     // const [isSticky, setIsSticky] = useState(false);
     const loc = useLocation();
-    console.log(loc.pathname);
 
     function toggleMenu() {
         setMenuOpen(!menuOpen);

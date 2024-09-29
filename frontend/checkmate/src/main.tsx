@@ -8,6 +8,7 @@ import {
 import Home from './pages/Home';
 import Explore from './pages/explore';
 import Download from './pages/download';
+import Video from './pages/Video';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,9 @@ const router = createBrowserRouter([
   }, {
     path: "/download",
     element: <Download />
+  }, {
+    path: "/explore/video",
+    element: <Video />
   }
 ]);
 
