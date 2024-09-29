@@ -76,20 +76,39 @@ const pull = async () => {
 
 
 
+const type_check = (text) => {
+    return text === "0" ? "error" : text === "1" ? "warning" : "info";
+}
 
 // Placeholder function to get text bubbles (replace with your implementation)
-function getTextBubbles () {
-    // This is where you'll implement your logic to fetch and parse the JSON object
-    // For now, we'll return some dummy data
-    // fetch()
-    let videoUrl = window.location.href;
-    data = pull(videoUrl);
-    return [
-        { text: "Fact check 1", type: "info" },
-        { text: "Fact check 2", type: "warning" },
-        { text: "Fact check 3", type: "error" },
-    ];
+async function getTextBubbles() {
+    try {
+        // Await the result of the async pull function
+        let data = await pull();
+
+        if (!data || !data.ai_result) {
+            console.error("Invalid data format received");
+            return []; // Return an empty array in case of an error
+        }
+
+        let textBubbles = [];
+
+        // Iterate over the elements in the ai_result
+        if (data["ai_result"][0]) {
+            data["ai_result"][0].forEach(element => {
+                textBubbles.push({ text: element[1], type: type_check(element[0]) });
+            });
+        }
+
+        console.log(textBubbles);
+        return textBubbles;
+
+    } catch (error) {
+        console.error("Error while fetching text bubbles:", error);
+        return []; // Return an empty array if an error occurs
+    }
 }
+
 
 // Function to create and inject a collapsible sidebar
 function createSidebar() {

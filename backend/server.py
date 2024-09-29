@@ -10,7 +10,8 @@ from flask_cors import CORS
 
 
 app = Flask(__name__)
-CORS(app)
+# CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 app.config['UPLOAD_FOLDER'] = './files'
 load_dotenv()
 
