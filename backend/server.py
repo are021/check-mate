@@ -33,12 +33,12 @@ def factcheck():
     if "youtube" in text:
         # Check if the URL already exists in the collection
         existing_entry = collection.find_one({"url": text})
-        # if existing_entry:
-        #     # Return the existing AI result if URL is found
-        #     return jsonify({
-        #         "url": text,
-        #         "ai_result": existing_entry['ai_result']
-        #     }), 200
+        if existing_entry:
+            # Return the existing AI result if URL is found
+            return jsonify({
+                "url": text,
+                "ai_result": existing_entry['ai_result']
+            }), 200
         
         # If the URL doesn't exist, get the transcript and call the AI
         transcript = get_youtube_subtitles(text)

@@ -41,8 +41,8 @@ export default function Video() {
         async function fetchVideoData() {
             // console.log(videoLink)
             // console.log("https://checkmate-backend-8puv.onrender.com/" )
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/factcheck`, {
-            // const response = await fetch(`http://127.0.0.1:8000/factcheck`, {
+            // const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/factcheck`, {
+            const response = await fetch(`http://127.0.0.1:8000/factcheck`, {
 
                 method: "POST",
                 headers: {
@@ -74,6 +74,7 @@ export default function Video() {
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
                         allowFullScreen
                     />
+
                     <div className="max-w-[320px] w-full flex md:hidden absolute bottom-8 left-1/2 -translate-x-1/2 flex-col">
                         <div className="max-h-[320px] pointer-events-auto overflow-y-auto flex flex-col gap-y-8">
                             {(mobileShowChecks) ? factCheckData ? Object.keys(factCheckData.ai_result).map((key) => {
