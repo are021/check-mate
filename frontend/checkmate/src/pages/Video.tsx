@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import MainLayout from "../layout/MainLayout";
-import { FaCheckCircle, FaChevronCircleDown, FaExclamationCircle, FaQuestionCircle } from "react-icons/fa";
-import { twMerge } from "tailwind-merge";
 import VideoComment from "../components/VideoComment";
 
 interface AiResult {

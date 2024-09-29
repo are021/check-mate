@@ -1,8 +1,8 @@
 import { FaCheckCircle, FaChevronCircleDown, FaChevronCircleUp, FaExclamationCircle, FaQuestionCircle } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-export default function VideoComment({data}) {
+export default function VideoComment({data}: {data: string[]}) {
     const [openDropdown, setDropdown] = useState(false);
     let [id, text, link] = data;
     id = id.toString()[0];

@@ -37,7 +37,7 @@ const VideoPreview = ({ videoURL="", width = '200', height = '300' }) => {
         ></iframe>
         <button
             onClick={handleRedirect}
-            className="font-courier-new absolute bottom-3 right-3 z-20 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-5 rounded pointer-events-auto font-bold"
+            className="font-courier-new absolute bottom-3 right-3 z-20 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-5 rounded pointer-events-auto"
         >View</button>
       </div>
     );
