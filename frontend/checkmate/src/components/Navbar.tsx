@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 
@@ -11,10 +11,23 @@ export default function Navbar() {
         setMenuOpen(!menuOpen);
     }
 
+    useEffect(() => {
+
+        const king = document.getElementById('navbar-logo');
+        king?.addEventListener('mouseenter', () => {
+            king.classList.add('fall');
+        })
+
+        return () => {
+            king?.removeEventListener('mouseenter', () => {})
+        }
+
+    }, []);
+
     return (
         <div className="max-w-screen-lg w-full h-14 font-dm-serif-display flex justify-between items-center relative">
             <a href="/" className="text-2xl flex items-center gap-x-1 pointer-events-auto">
-                <img src="/images/chess-king.png" width={28} height={28}/>
+                <img id="navbar-logo" src="/images/chess-king.png" width={28} height={28}/>
                 Check Mate
             </a>
             {(menuOpen) ? (
